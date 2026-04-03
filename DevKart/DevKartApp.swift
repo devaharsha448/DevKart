@@ -13,7 +13,7 @@ struct DevKartApp: App {
   
     var body: some Scene {
         WindowGroup {
-           
+           HomeView()
         }
         
     }
