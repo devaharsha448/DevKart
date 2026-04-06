@@ -6,27 +6,28 @@
 //
 import SwiftUI
 
+
 struct HeaderView: View {
     
-    var notificationCount: Int = 3   // later from ViewModel
-    var onNotificationTap: () -> Void = {}  // navigation handler
+    @StateObject private var locationManager = LocationManager()
+    
+    var notificationCount: Int = 3
+    var onNotificationTap: () -> Void = {}
     
     var body: some View {
         HStack {
             
-           
             VStack(alignment: .leading) {
                 Text("Location")
                     .font(.caption)
                     .foregroundColor(.gray)
                 
-                Text("New York, USA")
+                Text(locationManager.locationName)
                     .font(.headline)
             }
             
             Spacer()
             
-          
             Button(action: {
                 onNotificationTap()
             }) {
@@ -38,7 +39,6 @@ struct HeaderView: View {
                         .background(Color(.systemGray6))
                         .clipShape(Circle())
                     
-                
                     if notificationCount > 0 {
                         Text("\(notificationCount)")
                             .font(.caption2)
@@ -52,5 +52,8 @@ struct HeaderView: View {
             }
         }
         .padding(.horizontal)
+        .onAppear {
+            locationManager.requestPermission()
+        }
     }
 }

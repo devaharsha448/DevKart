@@ -10,4 +10,14 @@ struct Category: Identifiable {
     let id = UUID()
     let name: String
     let icon: String
+    
+    init(
+        
+        name: String,
+        icon: String
+    ) {
+        
+        self.name = name
+        self.icon = icon
+    }
 }

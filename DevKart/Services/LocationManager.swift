@@ -10,11 +10,14 @@ import CoreLocation
 import SwiftUI
 import Combine
 
+
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     private let manager = CLLocationManager()
+    private let geocoder = CLGeocoder()
     
     @Published var location: CLLocation?
+    @Published var locationName: String = "Fetching..."
     @Published var permissionDenied = false
     
     override init() {
@@ -22,7 +25,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         manager.delegate = self
     }
     
-    // Request permission
     func requestPermission() {
         let status = manager.authorizationStatus
         
@@ -42,7 +44,22 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        location = locations.last
+        guard let loc = locations.last else { return }
+        location = loc
+        
+        // 🔥 Reverse Geocoding
+        geocoder.reverseGeocodeLocation(loc) { [weak self] placemarks, error in
+            guard let place = placemarks?.first else { return }
+            
+            let city = place.locality ?? ""
+            let country = place.country ?? ""
+            
+            DispatchQueue.main.async {
+                self?.locationName = "\(city), \(country)"
+            }
+        }
+        
+        manager.stopUpdatingLocation() // stop for efficiency
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

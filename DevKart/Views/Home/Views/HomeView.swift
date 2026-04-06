@@ -10,7 +10,15 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @StateObject private var vm = HomeViewModel()
+    @StateObject private var vm = HomeViewModel(
+        productRepo: ProductRepositoryImpl(
+            dataSource: MockProductDataSource()
+        ),
+        categoryRepo: CategoryRepositoryImpl(
+            dataSource: MockCategoryDataSource()
+        )
+    )
+    
     
     var body: some View {
         NavigationStack {
@@ -33,6 +41,9 @@ struct HomeView: View {
                     ProductGridView(products: vm.products)
                 }
                 .padding()
+            }
+            .task{
+                await vm.loadData()
             }
             .navigationBarHidden(true)
         }

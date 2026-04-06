@@ -6,7 +6,6 @@
 //
 import SwiftUI
 import Combine
-
 @MainActor
 class HomeViewModel: ObservableObject {
     
@@ -14,23 +13,27 @@ class HomeViewModel: ObservableObject {
     @Published var categories: [Category] = []
     @Published var selectedFilter: String = "All"
     
-    init() {
-        loadData()
+    private let productRepo: ProductRepository
+    private let categoryRepo: CategoryRepository
+    
+    init(
+        productRepo: ProductRepository,
+        categoryRepo: CategoryRepository
+    ) {
+        self.productRepo = productRepo
+        self.categoryRepo = categoryRepo
     }
     
-    func loadData() {
-        categories = [
-            Category(name: "Earrings", icon: "earrings"),
-            Category(name: "Necklace", icon: "earrings"),
-            Category(name: "Bracelet", icon: "earrings"),
-            Category(name: "Ring", icon: "earrings")
-        ]
-        
-        products = [
-            Product(title: "Golden Ring", price: 320, image: "ring1"),
-            Product(title: "Gold Necklace", price: 450, image: "ring2"),
-            Product(title: "Bracelet", price: 220, image: "ring1"),
-            Product(title: "Earrings", price: 180, image: "ring2")
-        ]
+    func loadData() async {
+        do {
+            async let products = productRepo.fetchProducts()
+            async let categories = categoryRepo.fetchCategories()
+            
+            self.products = try await products
+            self.categories = try await categories
+            
+        } catch {
+            print("Error: \(error)")
+        }
     }
 }
