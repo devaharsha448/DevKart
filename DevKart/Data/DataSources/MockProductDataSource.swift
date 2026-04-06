@@ -16,6 +16,12 @@ final class MockProductDataSource: ProductDataSource {
         return [
             Product(title: "Golden Ring", price: 320, image: "ring1", description: "Luxury ring"),
             Product(title: "Necklace", price: 450, image: "Necklace", description: "Elegant necklace"),
+            Product(title: "Bracelet", price: 220, image: "Bracelet", description: "Stylish bracelet"),
+            Product(title: "Golden Ring", price: 320, image: "ring1", description: "Luxury ring"),
+            Product(title: "Necklace", price: 450, image: "Necklace", description: "Elegant necklace"),
+            Product(title: "Bracelet", price: 220, image: "Bracelet", description: "Stylish bracelet"),
+            Product(title: "Golden Ring", price: 320, image: "ring1", description: "Luxury ring"),
+            Product(title: "Necklace", price: 450, image: "Necklace", description: "Elegant necklace"),
             Product(title: "Bracelet", price: 220, image: "Bracelet", description: "Stylish bracelet")
         ]
     }

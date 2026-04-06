@@ -15,7 +15,7 @@ final class MockCategoryDataSource: CategoryDataSource {
         return [
             Category(name: "Earrings", icon: "earrings"),
             Category(name: "Necklace", icon: "Necklace"),
-            Category(name: "Bracelet", icon: "bracelet"),
+            Category(name: "Bracelet", icon: "Bracelet"),
             Category(name: "Ring", icon: "ringCat")
         ]
     }
