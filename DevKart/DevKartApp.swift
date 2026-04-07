@@ -16,6 +16,6 @@ struct DevKartApp: App {
         WindowGroup {
            ContentView().environmentObject(cartManager)
         }
-        
+        .modelContainer(for: CartItemModel.self)
     }
 }

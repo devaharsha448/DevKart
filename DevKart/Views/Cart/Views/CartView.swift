@@ -11,55 +11,82 @@ import Combine
 struct CartView: View {
     
     @EnvironmentObject var cartManager: CartManager
+    @Environment(\.modelContext) var context
     
     var body: some View {
         VStack {
             
             if cartManager.items.isEmpty {
+                Spacer()
                 Text("Your cart is empty")
+                    .font(.headline)
+                    .foregroundColor(.gray)
+                Spacer()
             } else {
-                List {
-                    ForEach(cartManager.items) { item in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(item.product.title)
-                                Text("$\(item.product.price, specifier: "%.2f")")
-                                    .foregroundColor(.gray)
-                            }
+                
+                ScrollView {
+                    VStack(spacing: 16) {
+                        
+                        ForEach(cartManager.items) { item in
                             
-                            Spacer()
-                            HStack(spacing: 12) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 6) {
+                                    Text(item.title)
+                                        .font(.headline)
+                                    
+                                    Text("$\(item.price, specifier: "%.2f")")
+                                        .foregroundColor(.gray)
+                                }
+                                
+                                Spacer()
+                                
+                                HStack(spacing: 12) {
+                                    
+                                    Button {
+                                        cartManager.decrement(item: item, context: context)
+                                    } label: {
+                                        Image(systemName: "minus.circle.fill")
+                                            .foregroundColor(.gray)
+                                    }
+                                    
+                                    Text("\(item.quantity)")
+                                        .frame(minWidth: 20)
+                                    
+                                    Button {
+                                        cartManager.increment(item: item, context: context)
+                                    } label: {
+                                        Image(systemName: "plus.circle.fill")
+                                            .foregroundColor(.gray)
+                                    }
+                                }
                                 
                                 Button {
-                                    cartManager.removeFromCart(product: item.product)
+                                    cartManager.delete(item: item, context: context)
                                 } label: {
-                                    Image(systemName: "minus.circle")
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.brown)
                                 }
-                                .buttonStyle(.borderless)
-                                Text("\(item.quantity)")
-                                    .frame(minWidth: 20)
-                                
-                                Button {
-                                    cartManager.addToCart(product: item.product)
-                                } label: {
-                                    Image(systemName: "plus.circle")
-                                }
-                                .buttonStyle(.borderless)
                             }
-                            
-                            Button {
-                                cartManager.deleteItemCompletely(product: item.product)
-                            } label: {
-                                Image(systemName: "trash")
-                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(12)
                         }
-                        .contentShape(Rectangle())
                     }
+                    .padding()
                 }
                 
-                VStack {
-                    Text("Total: $\(cartManager.totalPrice, specifier: "%.2f")")
-                        .font(.title2.bold())
+               
+                VStack(spacing: 12) {
+                    
+                    HStack {
+                        Text("Total")
+                            .font(.headline)
+                        
+                        Spacer()
+                        
+                        Text("$\(cartManager.totalPrice, specifier: "%.2f")")
+                            .font(.title3.bold())
+                    }
                     
                     Button("Proceed to Checkout") {
                         // checkout logic
@@ -71,14 +98,17 @@ struct CartView: View {
                     .cornerRadius(12)
                 }
                 .padding()
+                .background(Color(.systemBackground))
             }
         }
         .navigationTitle("My Cart")
-//        .navigationBarTitleDisplayMode(.inline)
+        .onAppear {
+            cartManager.loadCart(context: context)
+        }
     }
 }
 
 #Preview {
     CartView()
-        .environmentObject(CartManager()) // ✅ REQUIRED
+        .environmentObject(CartManager())
 }

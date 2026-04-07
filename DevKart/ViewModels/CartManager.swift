@@ -5,38 +5,65 @@
 //  Created by Dumpa Deva Harsha on 07/04/26.
 //
 import SwiftUI
+import SwiftData
 import Combine
 
 class CartManager: ObservableObject {
     
-    @Published var items: [CartItem] = []
+    @Published var items: [CartItemModel] = []
     
-    // Add to Cart
-    func addToCart(product: Product) {
-        if let index = items.firstIndex(where: { $0.product.id == product.id }) {
-            items[index].quantity += 1
-        } else {
-            items.append(CartItem(product: product, quantity: 1))
-        }
+    private let dataManager = SwiftDataManager()
+    
+    // Load once (onAppear)
+    func loadCart(context: ModelContext) {
+        items = dataManager.fetch(CartItemModel.self, context: context)
     }
     
-    // Remove item
-    func removeFromCart(product: Product) {
-        guard let index = items.firstIndex(where: { $0.product.id == product.id }) else { return }
+    // Add to cart
+    func addToCart(product: Product, context: ModelContext) {
+        if let existing = items.first(where: { $0.productId == product.id }) {
+            existing.quantity += 1
+        } else {
+            let newItem = CartItemModel(product: product, quantity: 1)
+            context.insert(newItem)
+            items.append(newItem)         }
         
-        if items[index].quantity > 1 {
-            items[index].quantity -= 1
-        } else {
-            items.remove(at: index)
-        }
+        try? context.save()
     }
     
-    func deleteItemCompletely(product: Product) {
-        items.removeAll { $0.product.id == product.id }
+    // Increment
+    func increment(item: CartItemModel, context: ModelContext) {
+        item.quantity += 1
+        try? context.save()
+    }
+    
+    // Decrement
+    func decrement(item: CartItemModel, context: ModelContext) {
+        if item.quantity > 1 {
+            item.quantity -= 1
+        } else {
+            context.delete(item)
+            items.removeAll { $0.id == item.id }
+        }
+        
+        try? context.save()
+    }
+    
+    // Delete completely
+    func delete(item: CartItemModel, context: ModelContext) {
+        context.delete(item)
+        items.removeAll { $0.id == item.id } 
+        try? context.save()
+    }
+    
+    // (Optional) remove old API if not used anymore
+    func removeFromCart(product: Product, context: ModelContext) {
+        guard let item = items.first(where: { $0.productId == product.id }) else { return }
+        decrement(item: item, context: context)
     }
     
     // Total Price
     var totalPrice: Double {
-        items.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
+        items.reduce(0) { $0 + ($1.price * Double($1.quantity)) }
     }
 }

@@ -10,6 +10,7 @@ struct ProductInfoView: View {
     
     let product: Product
     @EnvironmentObject var cartManager: CartManager
+    @Environment(\.modelContext) var context
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -27,11 +28,11 @@ struct ProductInfoView: View {
                 Text("4.5 (120 reviews)")
                     .font(.subheadline)
             }
-            
+        
             Button {
-                // Add to cart
-                cartManager.addToCart(product: product)
-            } label: {
+                    cartManager.addToCart(product: product, context: context)
+                }
+            label: {
                 Text("Add to Cart")
                     .frame(maxWidth: .infinity)
                     .padding()
