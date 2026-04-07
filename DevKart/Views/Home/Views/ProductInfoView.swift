@@ -9,6 +9,7 @@ import SwiftUI
 struct ProductInfoView: View {
     
     let product: Product
+    @EnvironmentObject var cartManager: CartManager
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -29,6 +30,7 @@ struct ProductInfoView: View {
             
             Button {
                 // Add to cart
+                cartManager.addToCart(product: product)
             } label: {
                 Text("Add to Cart")
                     .frame(maxWidth: .infinity)

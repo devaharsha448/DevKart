@@ -10,10 +10,11 @@ import SwiftData
 
 @main
 struct DevKartApp: App {
-  
+    @StateObject var cartManager = CartManager()
+    
     var body: some Scene {
         WindowGroup {
-           HomeView()
+           ContentView().environmentObject(cartManager)
         }
         
     }
