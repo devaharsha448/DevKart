@@ -102,6 +102,7 @@ struct CartView: View {
             }
         }
         .navigationTitle("My Cart")
+        .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             cartManager.loadCart(context: context)
         }
