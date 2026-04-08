@@ -11,12 +11,12 @@ import SwiftUI
 struct MainTabContainer: View {
     
     @State private var selectedTab: MainTab = .home
-    @State private var cartCount: Int = 2
+    
     
     var body: some View {
         VStack(spacing: 0) {
             
-            // 🔄 Screen Content
+           
             Group {
                 switch selectedTab {
                 case .home:
@@ -35,8 +35,7 @@ struct MainTabContainer: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
-            // 📌 Sticky Footer
-            CustomTabBar(selectedTab: $selectedTab, cartCount: cartCount)
+            CustomTabBar(selectedTab: $selectedTab)
         }
         .ignoresSafeArea(.keyboard, edges: .bottom)
     }

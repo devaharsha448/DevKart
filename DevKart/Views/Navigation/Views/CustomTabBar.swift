@@ -9,10 +9,11 @@
 import SwiftUI
 
 struct CustomTabBar: View {
-    
+    @EnvironmentObject var cartManager: CartManager
     @Binding var selectedTab: MainTab
-    var cartCount: Int = 0
-    
+    var cartCount: Int {
+        cartManager.items.count
+    }
     var body: some View {
         HStack {
             ForEach(MainTab.allCases, id: \.self) { tab in
@@ -43,7 +44,7 @@ struct CustomTabBar: View {
                         Text(tab.title)
                             .font(.caption2)
                     }
-                    .foregroundColor(selectedTab == tab ? .blue : .gray)
+                    .foregroundColor(selectedTab == tab ? .brown : .gray)
                 }
                 
                 Spacer()
