@@ -26,6 +26,7 @@ struct ContentView: View{
                 Label("Cart", systemImage: "cart")
             }
         }
+
     }
   
 }

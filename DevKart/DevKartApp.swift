@@ -14,7 +14,7 @@ struct DevKartApp: App {
     
     var body: some Scene {
         WindowGroup {
-           ContentView().environmentObject(cartManager)
+           MainTabContainer().environmentObject(cartManager)
         }
         .modelContainer(for: CartItemModel.self)
     }
