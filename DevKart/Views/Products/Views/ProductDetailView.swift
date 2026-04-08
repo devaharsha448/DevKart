@@ -24,7 +24,11 @@ struct ProductDetailView: View {
                     
                     Divider()
                     
-                    ReviewSectionView()
+                    HStack{
+                        ReviewSectionView()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
                 }
                 .padding()
             }
