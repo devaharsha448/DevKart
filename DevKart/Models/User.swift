@@ -8,8 +8,11 @@
 import SwiftUI
 import Combine
 
-struct User: Codable {
-    let id : UUID
+struct User: Codable, Identifiable {
+    let id: String
     let username: String
     let email: String
+    let phone: String?
+    let profileImageURL: String?
+    let createdAt: Date?
 }

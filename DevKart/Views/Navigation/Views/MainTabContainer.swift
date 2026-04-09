@@ -11,6 +11,7 @@ import SwiftUI
 struct MainTabContainer: View {
     
     @State private var selectedTab: MainTab = .home
+    @EnvironmentObject var authVM: AuthViewModel
     
     
     var body: some View {
@@ -26,7 +27,8 @@ struct MainTabContainer: View {
                 case .categories:
                     Text("Categories Screen")
                 case .account:
-                    Text("Account Screen")
+                    AccountView()
+                        .environmentObject(authVM)
                 case .cart:
                     NavigationStack{
                         CartView()

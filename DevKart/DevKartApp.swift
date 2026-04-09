@@ -11,10 +11,12 @@ import SwiftData
 @main
 struct DevKartApp: App {
     @StateObject var cartManager = CartManager()
+    @StateObject private var authVM = AuthViewModel()
+        
     
     var body: some Scene {
         WindowGroup {
-           MainTabContainer().environmentObject(cartManager)
+           AppRouter().environmentObject(cartManager) .environmentObject(authVM)
         }
         .modelContainer(for: CartItemModel.self)
     }

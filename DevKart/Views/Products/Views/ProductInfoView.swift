@@ -11,6 +11,7 @@ struct ProductInfoView: View {
     let product: Product
     @EnvironmentObject var cartManager: CartManager
     @Environment(\.modelContext) var context
+    @State private var showAlert = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -31,15 +32,21 @@ struct ProductInfoView: View {
         
             Button {
                     cartManager.addToCart(product: product, context: context)
+                    showAlert = true
                 }
             label: {
-                Text("Add to Cart")
+                Text(AppStrings.addedCartMsg)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.brown)
                     .foregroundColor(.white)
                     .cornerRadius(12)
             }
+            .alert(AppStrings.addedCartMsg, isPresented: $showAlert) {
+                Button(AppStrings.ok, role: .cancel) { }
+                    } message: {
+                        Text("\(product.title) \(AppStrings.addedCartInfo)")
+                    }
             
             Text("Description")
                 .font(.headline)

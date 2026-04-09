@@ -101,17 +101,11 @@ struct CartView: View {
                 .background(Color(.systemBackground))
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                Text("My Cart")
-                    .font(.system(size: 25, weight: .bold))
-                    .foregroundColor(.brown)
-                
-            }
-        }
-        .onAppear {
-            cartManager.loadCart(context: context)
-        }
+        .navigationTitle("My Cart")
+           .navigationBarTitleDisplayMode(.inline)
+           .onAppear {
+               cartManager.loadCart(context: context)
+           }
     }
 }
 
