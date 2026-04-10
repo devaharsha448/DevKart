@@ -26,7 +26,8 @@ struct ReviewSectionView: View {
                 comment: "Loved it!"
             )
         }
-        .padding(.horizontal)
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
        
     }
 }

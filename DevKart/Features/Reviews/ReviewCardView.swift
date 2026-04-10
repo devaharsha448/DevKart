@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+
 struct ReviewCardView: View {
     
     let name: String
@@ -30,9 +31,9 @@ struct ReviewCardView: View {
                 .foregroundColor(.gray)
         }
         .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color(.systemGray6))
         .cornerRadius(10)
-        .frame(maxWidth: .infinity, alignment: .leading)
-    
+        .padding(.horizontal) 
     }
 }

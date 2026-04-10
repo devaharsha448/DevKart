@@ -44,9 +44,10 @@ struct ProductInfoView: View {
             }
             .alert(AppStrings.addedCartMsg, isPresented: $showAlert) {
                 Button(AppStrings.ok, role: .cancel) { }
-                    } message: {
-                        Text("\(product.title) \(AppStrings.addedCartInfo)")
-                    }
+            } message: {
+                Text("\(product.title) \(AppStrings.addedCartInfo)")
+            }
+            .tint(.brown)   
             
             Text("Description")
                 .font(.headline)

@@ -13,7 +13,7 @@ struct AccountView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             
-            // 👤 User Info
+           
             VStack(alignment: .leading) {
                 Text(authVM.user?.username ?? AppStrings.empty)
                     .font(.headline)
@@ -25,14 +25,14 @@ struct AccountView: View {
             
             Divider()
             
-            // 📦 Sections
+          
             AccountRow(title: AppStrings.myOrders, icon: "bag")
             AccountRow(title: AppStrings.addresses, icon: "location")
             AccountRow(title: AppStrings.personalDetails, icon: "person")
             
             Spacer()
             
-            // 🚪 Logout
+           
             Button(AppStrings.logout) {
                 authVM.logout()
             }

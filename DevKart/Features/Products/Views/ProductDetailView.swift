@@ -20,17 +20,16 @@ struct ProductDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     
-                    ProductInfoView(product: product)
+                    ProductInfoView(product: product) .padding()
                     
                     Divider()
                     
-                    HStack{
-                        ReviewSectionView()
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                  
+                    ReviewSectionView()
+                   
 
                 }
-                .padding()
+               
             }
         }
         .navigationBarHidden(true)
