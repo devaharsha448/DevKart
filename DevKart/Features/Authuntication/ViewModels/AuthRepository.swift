@@ -64,7 +64,28 @@ final class AuthRepository {
         
         context.insert(user)
         try context.save()
-        
         return user
+    }
+    func printAllUsers(context: ModelContext) {
+        
+        let descriptor = FetchDescriptor<UserModel>()
+        
+        do {
+            let users = try context.fetch(descriptor)
+            
+            print("===== ALL USERS =====")
+            
+            for user in users {
+                print("ID:", user.id)
+                print("Username:", user.username)
+                print("Email:", user.email)
+                print("---------------------")
+            }
+            
+            print("Total Users:", users.count)
+            
+        } catch {
+            print("❌ Failed to fetch users:", error)
+        }
     }
 }

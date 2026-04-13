@@ -12,6 +12,7 @@ struct CartView: View {
     
     @EnvironmentObject var cartManager: CartManager
     @Environment(\.modelContext) var context
+    @EnvironmentObject var authVM: AuthViewModel
     
     var body: some View {
         VStack {
@@ -106,7 +107,9 @@ struct CartView: View {
         .navigationTitle("My Cart")
            .navigationBarTitleDisplayMode(.inline)
            .onAppear {
-               cartManager.loadCart(context: context)
+               if let user = authVM.user {
+                   cartManager.loadCart(for: user, context: context)
+               }
            }
     }
 }

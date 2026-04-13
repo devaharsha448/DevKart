@@ -12,6 +12,7 @@ struct ProductInfoView: View {
     @EnvironmentObject var cartManager: CartManager
     @Environment(\.modelContext) var context
     @State private var showAlert = false
+    @EnvironmentObject var authVM: AuthViewModel
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -31,7 +32,9 @@ struct ProductInfoView: View {
             }
         
             Button {
-                    cartManager.addToCart(product: product, context: context)
+                if let user = authVM.user {
+                    cartManager.addToCart(product: product, user: user, context: context)
+                }
                     showAlert = true
                 }
             label: {

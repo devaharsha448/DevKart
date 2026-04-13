@@ -81,4 +81,8 @@ final class AuthViewModel: ObservableObject {
         user = nil
         storedUserId = nil
     }
+    
+    func printAllUsers(context: ModelContext){
+        AuthRepository.shared.printAllUsers(context: context)
+    }
 }

@@ -20,12 +20,14 @@ class CartItemModel {
     
     // 🔗 Relation
     var user: UserModel?
+    var userId : String
     
-    init(product: Product, quantity: Int = 1) {
+    init(product: Product, quantity: Int = 1, userId: String) {
         self.id = UUID()
         self.productId = product.id
         self.title = product.title
         self.price = product.price
         self.quantity = quantity
+        self.userId = userId
     }
 }

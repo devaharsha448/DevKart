@@ -26,7 +26,12 @@ struct AccountView: View {
             Divider()
             
           
-            AccountRow(title: AppStrings.myOrders, icon: "bag")
+            NavigationLink {
+                MyOrdersView()
+            } label: {
+                AccountRow(title: AppStrings.myOrders, icon: "bag")
+            }
+            .buttonStyle(.plain)
             
             NavigationLink {
                 AddressListView()

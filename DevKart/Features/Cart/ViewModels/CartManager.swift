@@ -15,22 +15,43 @@ class CartManager: ObservableObject {
     private let dataManager = SwiftDataManager()
     
     // Load once (onAppear)
-    func loadCart(context: ModelContext) {
-        items = dataManager.fetch(CartItemModel.self, context: context)
+    func loadCart(for user: UserModel, context: ModelContext) {
+        
+        func loadCart(for user: UserModel, context: ModelContext) {
+            
+            let userId = user.id
+            
+            let predicate = #Predicate<CartItemModel> {
+                $0.userId == userId
+            }
+            
+            items = dataManager.fetch(
+                CartItemModel.self,
+                context: context,
+                predicate: predicate
+            )
+        }
     }
-    
     // Add to cart
-    func addToCart(product: Product, context: ModelContext) {
+    func addToCart(product: Product, user: UserModel, context: ModelContext) {
+        
         if let existing = items.first(where: { $0.productId == product.id }) {
             existing.quantity += 1
         } else {
-            let newItem = CartItemModel(product: product, quantity: 1)
+            let newItem = CartItemModel(
+                product: product,
+                quantity: 1,
+                userId: user.id
+            )
+            newItem.user = user
+            user.cartItems.append(newItem)
+            
             context.insert(newItem)
-            items.append(newItem)         }
+            items.append(newItem)
+        }
         
         try? context.save()
     }
-    
     // Increment
     func increment(item: CartItemModel, context: ModelContext) {
         item.quantity += 1

@@ -16,13 +16,16 @@ class OrderModel {
     
     // 🔗 Relation
     var user: UserModel?
+    var userId: String
+    
     
     @Relationship(deleteRule: .cascade)
     var items: [OrderItemModel] = []
     
-    init(totalAmount: Double) {
+    init(totalAmount: Double, userId: String) {
         self.id = UUID()
         self.date = Date()
         self.totalAmount = totalAmount
+        self.userId = userId
     }
 }

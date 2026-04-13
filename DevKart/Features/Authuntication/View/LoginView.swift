@@ -73,6 +73,9 @@ struct LoginView: View {
                 
                 Spacer()
             }
+            .onAppear(){
+                authVM.printAllUsers(context: context)
+            }
         }
     }
 }

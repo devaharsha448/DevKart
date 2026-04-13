@@ -10,6 +10,11 @@ import SwiftUI
 struct PaymentView: View {
     
     @State private var selectedMethod: PaymentMethod = .upi
+    @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var cartManager: CartManager
+    @Environment(\.modelContext) var context
+
+    @State private var showSuccess = false
     
     var body: some View {
         VStack(spacing: 16) {
@@ -40,7 +45,18 @@ struct PaymentView: View {
             Spacer()
             
             Button("Pay Now") {
-                // Payment logic later
+                guard let user = authVM.user else { return }
+                
+                OrderManager.shared.placeOrder(
+                    user: user,
+                    cartItems: cartManager.items,
+                    context: context
+                )
+                
+                // Clear local cart array
+                cartManager.items.removeAll()
+                
+                showSuccess = true
             }
             .frame(maxWidth: .infinity)
             .padding()
@@ -50,5 +66,8 @@ struct PaymentView: View {
         }
         .padding()
         .navigationTitle("Payment")
+        .navigationDestination(isPresented: $showSuccess) {
+            OrderSuccessView()
+        }
     }
 }
