@@ -11,7 +11,7 @@ import SwiftUI
 struct LoginView: View {
     
     @EnvironmentObject var authVM: AuthViewModel
-    
+    @Environment(\.modelContext) var context
     @State private var username = AppStrings.empty
     @State private var password = AppStrings.empty
     
@@ -52,7 +52,8 @@ struct LoginView: View {
                         Task {
                             await authVM.login(
                                 username: username,
-                                password: password
+                                password: password,
+                                context: context
                             )
                         }
                     }

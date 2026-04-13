@@ -10,21 +10,22 @@ import SwiftData
 import SwiftUI
 
 @Model
-class CartItemModel: Identifiable {
+class CartItemModel {
     
     var id: UUID
     var productId: UUID
     var title: String
     var price: Double
-    var image: String
     var quantity: Int
     
-    init(product: Product, quantity: Int) {
+    // 🔗 Relation
+    var user: UserModel?
+    
+    init(product: Product, quantity: Int = 1) {
         self.id = UUID()
         self.productId = product.id
         self.title = product.title
         self.price = product.price
-        self.image = product.image
         self.quantity = quantity
     }
 }

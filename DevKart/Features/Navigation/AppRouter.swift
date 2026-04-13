@@ -6,18 +6,26 @@
 //
 import SwiftUI
 
+import SwiftUI
 struct AppRouter: View {
     
-    @StateObject private var authVM = AuthViewModel()
+    @EnvironmentObject var authVM: AuthViewModel
+    @Environment(\.modelContext) var context
+    
+    @State private var didLoad = false
     
     var body: some View {
         Group {
             if authVM.isLoggedIn {
                 MainTabContainer()
-                    .environmentObject(authVM)
             } else {
                 LoginView()
-                    .environmentObject(authVM)
+            }
+        }
+        .onAppear {
+            if !didLoad {
+                authVM.loadUser(context: context)
+                didLoad = true
             }
         }
     }

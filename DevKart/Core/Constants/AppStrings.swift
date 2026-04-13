@@ -41,4 +41,6 @@ enum AppStrings {
     static let addedCartMsg = "Added To Cart"
     static let ok = "OK"
     static let addedCartInfo = "has been added to your cart."
+    static let CheckOutTitle = "Proceed To Checkout"
+    static let userExists = "User already exists"
 }

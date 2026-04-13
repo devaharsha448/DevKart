@@ -27,8 +27,10 @@ struct MainTabContainer: View {
                 case .categories:
                     Text("Categories Screen")
                 case .account:
-                    AccountView()
-                        .environmentObject(authVM)
+                    NavigationStack{
+                        AccountView()
+                            .environmentObject(authVM)
+                    }
                 case .cart:
                     NavigationStack{
                         CartView()

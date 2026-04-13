@@ -27,7 +27,14 @@ struct AccountView: View {
             
           
             AccountRow(title: AppStrings.myOrders, icon: "bag")
-            AccountRow(title: AppStrings.addresses, icon: "location")
+            
+            NavigationLink {
+                AddressListView()
+            } label: {
+                AccountRow(title: AppStrings.addresses, icon: "location")
+            }
+            .buttonStyle(.plain)
+            
             AccountRow(title: AppStrings.personalDetails, icon: "person")
             
             Spacer()

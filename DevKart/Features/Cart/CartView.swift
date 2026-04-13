@@ -88,14 +88,16 @@ struct CartView: View {
                             .font(.title3.bold())
                     }
                     
-                    Button("Proceed to Checkout") {
-                        // checkout logic
+                    NavigationLink {
+                        CheckoutView()
+                    } label: {
+                        Text(AppStrings.CheckOutTitle)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.brown)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.brown)
-                    .foregroundColor(.white)
-                    .cornerRadius(12)
                 }
                 .padding()
                 .background(Color(.systemBackground))

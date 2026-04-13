@@ -18,6 +18,12 @@ struct DevKartApp: App {
         WindowGroup {
            AppRouter().environmentObject(cartManager) .environmentObject(authVM)
         }
-        .modelContainer(for: CartItemModel.self)
+        .modelContainer(for: [
+            UserModel.self,
+            AddressModel.self,
+            CartItemModel.self,
+            OrderModel.self,
+            OrderItemModel.self
+        ])
     }
 }

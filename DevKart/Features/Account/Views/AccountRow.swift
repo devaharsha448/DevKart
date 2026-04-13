@@ -17,7 +17,9 @@ struct AccountRow: View {
             Text(title)
             Spacer()
             Image(systemName: "chevron.right")
+                .foregroundColor(.gray)
         }
+        .foregroundColor(.primary)  
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(10)

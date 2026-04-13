@@ -6,40 +6,46 @@
 //
 import SwiftUI
 import Combine
+import SwiftData
 
 @MainActor
 final class AuthViewModel: ObservableObject {
     
-    @Published var user: User?
+    @Published var user: UserModel?
     @Published var isLoading = false
     @Published var errorMessage: String?
     
     
-    @AppStorage(StorageKeys.isLoggedIn) private var isLoggedInStorage = false
-    @AppStorage(StorageKeys.userData) private var userDataStorage: Data?
     
-    var isLoggedIn: Bool {
+    @AppStorage(StorageKeys.userId) private var storedUserId: String?
+    
+    var isLoggedIn : Bool {
         user != nil
     }
     
-    init() {
-        loadUserFromStorage()
+    func loadUser(context: ModelContext) {
+        guard let id = storedUserId else { return }
+        
+        let descriptor = FetchDescriptor<UserModel>(
+            predicate: #Predicate { $0.id == id }
+        )
+        
+        user = try? context.fetch(descriptor).first
     }
     
-
-    func login(username: String, password: String) async {
+    // LOGIN
+    func login(username: String, password: String, context: ModelContext) async {
         isLoading = true
-        errorMessage = nil
         
         do {
-            let user = try await AuthService.shared.login(
+            let user = try AuthRepository.shared.login(
                 username: username,
-                password: password
+                password: password,
+                context: context
             )
             
             self.user = user
-            saveUserToStorage(user)
-            isLoggedInStorage = true
+            storedUserId = user.id
             
         } catch {
             errorMessage = AppStrings.invalidCredentials
@@ -48,31 +54,31 @@ final class AuthViewModel: ObservableObject {
         isLoading = false
     }
     
-
-    func logout() {
-        user = nil
-        isLoggedInStorage = false
-        userDataStorage = nil
-    }
-    private func saveUserToStorage(_ user: User) {
+    // SIGNUP
+    func signup(username: String, email: String, password: String, context: ModelContext) async {
+        isLoading = true
+        
         do {
-            let data = try JSONEncoder().encode(user)
-            userDataStorage = data
+            let user = try AuthRepository.shared.signup(
+                username: username,
+                email: email,
+                password: password,
+                context: context
+            )
+            
+            self.user = user
+            storedUserId = user.id
+            
         } catch {
-            print(AppStrings.failedToSaveUser)
+            errorMessage = AppStrings.userExists
         }
+        
+        isLoading = false
     }
     
-    private func loadUserFromStorage() {
-        
-        guard isLoggedInStorage,
-              let data = userDataStorage else { return }
-        
-        do {
-            let savedUser = try JSONDecoder().decode(User.self, from: data)
-            self.user = savedUser
-        } catch {
-            print(AppStrings.failedToLoadUser)
-        }
+    // LOGOUT
+    func logout() {
+        user = nil
+        storedUserId = nil
     }
 }

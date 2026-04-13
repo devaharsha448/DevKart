@@ -9,4 +9,5 @@
 enum StorageKeys {
     static let isLoggedIn = "isLoggedIn"
     static let userData = "userData"
+    static let userId = "UserId"
 }
