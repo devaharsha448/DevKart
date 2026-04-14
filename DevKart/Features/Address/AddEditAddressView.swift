@@ -19,30 +19,41 @@ struct AddEditAddressView: View {
     
     var address: AddressModel? // nil → Add, non-nil → Edit
     
-    @State private var name = ""
-    @State private var phone = ""
-    @State private var line1 = ""
-    @State private var city = ""
-    @State private var state = ""
-    @State private var pincode = ""
+    @State private var name = AppStrings.empty
+    @State private var phone = AppStrings.empty
+    @State private var line1 = AppStrings.empty
+    @State private var city = AppStrings.empty
+    @State private var state = AppStrings.empty
+    @State private var pincode = AppStrings.empty
+    
+    let Save = "Save"
+    let editAddressText = "Edit Address"
+    let addAddressText = "Add Address"
+    let detailsText = "Details"
+    let nameText = "Name"
+    let phoneText = "Phone"
+    let addressText = "Address"
+    let cityText = "City"
+    let stateText = "State"
+    let pincodeText = "Pincode"
     
     var isEdit: Bool { address != nil }
     
     var body: some View {
         NavigationStack {
             Form {
-                Section("Details") {
-                    TextField("Name", text: $name)
-                    TextField("Phone", text: $phone)
-                    TextField("Address", text: $line1)
-                    TextField("City", text: $city)
-                    TextField("State", text: $state)
-                    TextField("Pincode", text: $pincode)
+                Section(detailsText) {
+                    TextField(nameText, text: $name)
+                    TextField(phoneText, text: $phone)
+                    TextField(addressText, text: $line1)
+                    TextField(cityText, text: $city)
+                    TextField(stateText, text: $state)
+                    TextField(pincodeText, text: $pincode)
                 }
             }
-            .navigationTitle(isEdit ? "Edit Address" : "Add Address")
+            .navigationTitle(isEdit ?  editAddressText : addAddressText)
             .toolbar {
-                Button("Save") {
+                Button(Save) {
                     save()
                 }
             }

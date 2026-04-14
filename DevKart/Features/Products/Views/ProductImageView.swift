@@ -14,10 +14,8 @@ struct ProductImageView: View {
     var body: some View {
         ZStack(alignment: .top) {
             
-            Image(product.image)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 300) // ~50%
+            ProductAsyncImageView(imageName: product.image)
+                .frame(height: 300)
                 .clipped()
             
             HStack {

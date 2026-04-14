@@ -9,16 +9,19 @@ import SwiftUI
 struct SearchBarView: View {
     
     @State private var text = ""
+    let magnifyingGlass = "magnifyingglass"
+    let search = "Search"
+    let filter = "slider.horizontal.3"
     
     var body: some View {
         HStack(spacing: 10) {
             
           
             HStack {
-                Image(systemName: "magnifyingglass")
+                Image(systemName: magnifyingGlass)
                     .foregroundColor(.gray)
                 
-                TextField("Search", text: $text)
+                TextField(search, text: $text)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
             }
@@ -31,7 +34,7 @@ struct SearchBarView: View {
             Button {
                 // action
             } label: {
-                Image(systemName: "slider.horizontal.3")
+                Image(systemName: filter)
                     .foregroundColor(.brown)
                     .padding()
                     .background(Color.brown.opacity(0.1))

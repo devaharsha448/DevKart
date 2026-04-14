@@ -16,6 +16,8 @@ struct AddressListView: View {
     
     @State private var showAdd = false
     @State private var selectedAddress: AddressModel?
+    let addNewAddressesText = "Add new Addresses"
+    let myAddresses = "My Addresses"
     
     var body: some View {
         VStack {
@@ -30,7 +32,7 @@ struct AddressListView: View {
                             .frame(maxWidth: .infinity)
                             .listRowInsets(EdgeInsets())
                             .listRowBackground(Color.clear)
-                            .contentShape(Rectangle()) // 👈 important
+                            .contentShape(Rectangle()) 
                             .onTapGesture {
                                 addressVM.setDefault(address, user: user, context: context)
                             }
@@ -39,13 +41,13 @@ struct AddressListView: View {
                                 Button(role: .destructive) {
                                     addressVM.deleteAddress(address, user: user, context: context)
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label(AppStrings.delete, systemImage: AppStrings.trash)
                                 }
                                 
                                 Button {
                                     selectedAddress = address
                                 } label: {
-                                    Label("Edit", systemImage: "pencil")
+                                    Label(AppStrings.edit, systemImage: AppStrings.pencil)
                                 }
                                 .tint(.blue)
                             }
@@ -55,11 +57,11 @@ struct AddressListView: View {
                 .listStyle(.plain)
             }
             
-            // ➕ Add Button
+            // Add Button
             Button {
                 showAdd = true
             } label: {
-                Text("Add New Address")
+                Text(addNewAddressesText)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.brown)
@@ -68,14 +70,14 @@ struct AddressListView: View {
             }
             .padding()
         }
-        .navigationTitle("My Addresses")
+        .navigationTitle(myAddresses)
         
-        // ➕ ADD SHEET
+        // ADD SHEET
         .sheet(isPresented: $showAdd) {
             AddEditAddressView()
         }
         
-        // ✏️ EDIT SHEET
+        // EDIT SHEET
         .sheet(item: $selectedAddress) { address in
             AddEditAddressView(address: address)
         }

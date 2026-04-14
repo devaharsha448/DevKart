@@ -16,13 +16,10 @@ struct ProductCardView: View {
         } label: {
             VStack(alignment: .leading) {
                 
-                Image(product.image)
-                    .resizable()
-                    .scaledToFill()
+                ProductAsyncImageView(imageName: product.image)
                     .frame(height: 120)
                     .clipped()
                     .cornerRadius(12)
-                    .foregroundColor(.black)
                 
                 Text(product.title)
                     .font(.subheadline)
@@ -33,6 +30,5 @@ struct ProductCardView: View {
                     .foregroundColor(.black)
             }
         }
-       
     }
 }

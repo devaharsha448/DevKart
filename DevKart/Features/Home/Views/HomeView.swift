@@ -31,7 +31,19 @@ struct HomeView: View {
                     
                     BannerView()
                     
-                    CategorySectionView(categories: vm.categories)
+                    CategorySectionView(
+                        categories: vm.categories,
+                        selectedCategory: vm.selectedCategory,
+                        onSelect: { vm.selectCategory($0) }
+                    )
+                    if vm.isLoading {
+                        ProgressView()
+                    }
+
+                    if let error = vm.errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                    }
                     
                     FilterChipsView(
                         selected: vm.selectedFilter,

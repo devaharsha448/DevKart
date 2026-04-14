@@ -9,7 +9,9 @@ import SwiftUI
 struct AccountView: View {
     
     @EnvironmentObject var authVM: AuthViewModel
-    
+    let bag = "bag"
+    let location = "location"
+    let person = "person"
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             
@@ -29,18 +31,18 @@ struct AccountView: View {
             NavigationLink {
                 MyOrdersView()
             } label: {
-                AccountRow(title: AppStrings.myOrders, icon: "bag")
+                AccountRow(title: AppStrings.myOrders, icon: bag)
             }
             .buttonStyle(.plain)
             
             NavigationLink {
                 AddressListView()
             } label: {
-                AccountRow(title: AppStrings.addresses, icon: "location")
+                AccountRow(title: AppStrings.addresses, icon: location)
             }
             .buttonStyle(.plain)
             
-            AccountRow(title: AppStrings.personalDetails, icon: "person")
+            AccountRow(title: AppStrings.personalDetails, icon: person)
             
             Spacer()
             

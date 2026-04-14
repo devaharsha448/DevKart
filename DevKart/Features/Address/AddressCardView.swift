@@ -11,6 +11,8 @@ import SwiftUI
 struct AddressCardView: View {
     
     let address: AddressModel
+    let phoneText = "Phone"
+    let defaultText = "Default"
     
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -20,7 +22,7 @@ struct AddressCardView: View {
                     .font(.headline)
                 
                 if address.isDefault {
-                    Text("Default")
+                    Text(defaultText)
                         .font(.caption)
                         .padding(6)
                         .background(Color.green.opacity(0.2))
@@ -31,7 +33,7 @@ struct AddressCardView: View {
             Text(address.line1)
             Text("\(address.city), \(address.state)")
             Text(address.pincode)
-            Text("Phone: \(address.phone)")
+            Text("\(phoneText) : \(address.phone)")
         }
         .frame(maxWidth: .infinity, alignment: .leading) 
         .padding()
