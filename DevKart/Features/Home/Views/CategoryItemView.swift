@@ -16,6 +16,7 @@ struct CategoryItemView: View {
             
             Image(systemName: category.icon)
                 .font(.system(size: 18))
+                .foregroundColor(Color.brown)
             
             Text(category.name)
                 .font(.caption2)
@@ -24,7 +25,7 @@ struct CategoryItemView: View {
         .frame(width: 70, height: 70) 
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .fill(isSelected ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
+                .fill(isSelected ? Color.brown.opacity(0.2) : Color.gray.opacity(0.1))
         )
     }
 }

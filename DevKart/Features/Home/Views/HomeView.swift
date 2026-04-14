@@ -10,6 +10,7 @@ import SwiftUI
 
 struct HomeView: View {
     
+    @State private var showFilter = false
     @StateObject private var vm = HomeViewModel(
         productRepo: ProductRepositoryImpl(
             dataSource: MockProductDataSource()
@@ -27,7 +28,13 @@ struct HomeView: View {
                     
                     HeaderView()
                     
-                    SearchBarView()
+                    SearchBarView(
+                        text: $vm.searchText,
+                        showFilter: $showFilter
+                    )
+                    .sheet(isPresented: $showFilter) {
+                        FilterView(vm: vm)
+                    }
                     
                     BannerView()
                     
