@@ -17,6 +17,7 @@ struct ReviewSectionView: View {
     @StateObject private var reviewVM = ReviewViewModel()
     
     @State private var showAdd = false
+    @State private var selectedReview: ReviewModel? = nil
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -44,17 +45,24 @@ struct ReviewSectionView: View {
                     
                     VStack(alignment: .leading) {
                         
-                        // 🔁 Reuse your existing UI
+                        //  Reuse your existing UI
                         ReviewCardView(
                             name: review.username,
                             rating: review.rating,
                             comment: review.comment
                         )
                         
-                        // ✅ Owner controls
+                        //  Owner controls
                         if review.userId == authVM.user?.id {
                             
                             HStack {
+                                
+                                Button("Edit") {
+                                    showAdd = true
+                                    selectedReview = review
+                                }
+                                .foregroundColor(.blue)
+                                
                                 Button("Delete") {
                                     reviewVM.deleteReview(review, context: context)
                                 }
@@ -76,7 +84,16 @@ struct ReviewSectionView: View {
         
         // Add Review Sheet
         .sheet(isPresented: $showAdd) {
-            AddReviewView(productId: product.id, reviewVM: reviewVM)
+            AddReviewView(
+                productId: product.id,
+                existingReview: selectedReview, 
+                reviewVM: reviewVM
+            )
+        }
+        .onChange(of: showAdd) { newValue in
+            if !newValue {
+                selectedReview = nil
+            }
         }
     }
 }

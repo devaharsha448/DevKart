@@ -11,6 +11,7 @@ import SwiftUI
 struct AddReviewView: View {
     
     let productId: UUID
+    var existingReview: ReviewModel? = nil   // NEW
     
     @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.modelContext) var context
@@ -24,10 +25,9 @@ struct AddReviewView: View {
     var body: some View {
         VStack(spacing: 20) {
             
-            Text("Add Review")
+            Text(existingReview == nil ? "Add Review" : "Edit Review")
                 .font(.headline)
             
-            // ⭐ Rating
             HStack {
                 ForEach(1...5, id: \.self) { star in
                     Image(systemName: star <= rating ? "star.fill" : "star")
@@ -40,7 +40,7 @@ struct AddReviewView: View {
             TextField("Write your review", text: $comment)
                 .textFieldStyle(.roundedBorder)
             
-            Button("Submit") {
+            Button(existingReview == nil ? "Submit" : "Update") {
                 save()
             }
             .frame(maxWidth: .infinity)
@@ -52,18 +52,36 @@ struct AddReviewView: View {
             Spacer()
         }
         .padding()
+        .onAppear {
+            // Prefill if editing
+            if let review = existingReview {
+                rating = review.rating
+                comment = review.comment
+            }
+        }
     }
     
     private func save() {
         guard let user = authVM.user else { return }
         
-        reviewVM.addReview(
-            productId: productId,
-            user: user,
-            rating: rating,
-            comment: comment,
-            context: context
-        )
+        if let review = existingReview {
+            // UPDATE
+            reviewVM.updateReview(
+                review: review,
+                rating: rating,
+                comment: comment,
+                context: context
+            )
+        } else {
+            // ADD
+            reviewVM.addReview(
+                productId: productId,
+                user: user,
+                rating: rating,
+                comment: comment,
+                context: context
+            )
+        }
         
         dismiss()
     }

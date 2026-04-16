@@ -24,10 +24,10 @@ final class ReviewViewModel: ObservableObject {
         
         do {
             reviews = try context.fetch(descriptor)
-            print("📦 Loaded reviews:", reviews.count)
+            print("Loaded reviews:", reviews.count)
             print("Fetching for productId:", productId)
         } catch {
-            print("❌ Fetch error:", error)
+            print("Fetch error:", error)
         }
     }
     
@@ -51,6 +51,23 @@ final class ReviewViewModel: ObservableObject {
         try? context.save()
         print("Saved productId:", productId)
         loadReviews(productId: productId, context: context)
+    }
+    
+    func updateReview(
+        review: ReviewModel,
+        rating: Int,
+        comment: String,
+        context: ModelContext
+    ) {
+        review.rating = rating
+        review.comment = comment
+        
+        try? context.save()
+        
+        print("Review updated:", review.id)
+        
+        // refresh list
+        loadReviews(productId: review.productId, context: context)
     }
     
     func deleteReview(_ review: ReviewModel, context: ModelContext) {
