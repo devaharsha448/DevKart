@@ -23,7 +23,8 @@ struct DevKartApp: App {
             AddressModel.self,
             CartItemModel.self,
             OrderModel.self,
-            OrderItemModel.self
+            OrderItemModel.self,
+            ReviewModel.self
         ])
     }
 }

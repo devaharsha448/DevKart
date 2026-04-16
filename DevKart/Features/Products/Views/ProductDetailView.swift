@@ -22,10 +22,12 @@ struct ProductDetailView: View {
                     
                     ProductInfoView(product: product) .padding()
                     
+                    
+                    
                     Divider()
                     
                   
-                    ReviewSectionView()
+                    ReviewSectionView(product: product)
                    
 
                 }
